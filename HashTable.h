@@ -20,7 +20,7 @@ public:
   ~HashTable();       // deconstructor
 
   int size();      // returns size of the hash table (number of buckets)
-  int hash_function(KeyType);  // the table's hash function
+  int hash_function(KeyType);     // the table's hash function
   ValueType getValue(KeyType);    // find and return data associated with key
 
   void insert(KeyType,ValueType); // insert data associated with key into table
@@ -39,13 +39,33 @@ template <class KeyType, class ValueType>
 HashTable<KeyType, ValueType>::HashTable() {
     table = new Table();
     table->reserve(11);
+    table->resize(11);
 }
 
 template <class KeyType, class ValueType>
 HashTable<KeyType, ValueType>::HashTable(int size) {
     table = new Table();
     table->reserve(size);
+    table->resize(size);
 }
+
+template<class KeyType, class ValueType>
+HashTable<KeyType, ValueType>::~HashTable() {
+    //Deconstructor
+}
+
+template<class KeyType, class ValueType>
+void HashTable<KeyType, ValueType>::insert(KeyType, ValueType) {
+
+}
+
+template<class KeyType, class ValueType>
+int HashTable<KeyType, ValueType>::hash_function(KeyType) {
+    return 0;
+}
+
+
+
 
 /* Implement the 
 - Constructors, Destructor

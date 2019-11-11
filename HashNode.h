@@ -13,12 +13,9 @@ class HashNode {
 public:
 
   HashNode();  // constructor
-
   KeyType getKey() { return key; }
   ValueType getValue() { return value; }
-  void assign(KeyType key, ValueType value); 
-
-  // extend if necessary
+  void assign(KeyType key, ValueType value);
 };
 
 template <class KeyType, class ValueType>
@@ -26,8 +23,12 @@ void HashNode<KeyType, ValueType>::assign(KeyType keyIn, ValueType valueIn) {
     key = keyIn;
     value = valueIn;
 }
-/* 
-   Implement the constructor, the assign method 
+
+template<class KeyType, class ValueType>
+HashNode<KeyType, ValueType>::HashNode() {
+}
+/*
+   Implement the constructor, the assign method
    and any methods that you may additionally need for the HashTable to work.
 */
 
