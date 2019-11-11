@@ -26,13 +26,25 @@ public:
   void insert(KeyType,ValueType); // insert data associated with key into table
   void erase(KeyType);            // remove key and associated data from table
 
-  void rehash(int); // sets a new size for the hash table, rehashes the hash table 
+  void rehash(int); // sets a new size for the hash table, rehashes the hash table
   // extend if necessary
 };
 
 template <class KeyType, class ValueType>
 int HashTable<KeyType,ValueType>::size() {
   return table->size();
+}
+
+template <class KeyType, class ValueType>
+HashTable<KeyType, ValueType>::HashTable() {
+    table = new Table();
+    table->reserve(11);
+}
+
+template <class KeyType, class ValueType>
+HashTable<KeyType, ValueType>::HashTable(int size) {
+    table = new Table();
+    table->reserve(size);
 }
 
 /* Implement the 

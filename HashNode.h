@@ -21,6 +21,11 @@ public:
   // extend if necessary
 };
 
+template <class KeyType, class ValueType>
+void HashNode<KeyType, ValueType>::assign(KeyType keyIn, ValueType valueIn) {
+    key = keyIn;
+    value = valueIn;
+}
 /* 
    Implement the constructor, the assign method 
    and any methods that you may additionally need for the HashTable to work.
