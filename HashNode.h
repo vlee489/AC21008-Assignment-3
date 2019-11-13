@@ -25,8 +25,7 @@ void HashNode<KeyType, ValueType>::assign(KeyType keyIn, ValueType valueIn) {
 }
 
 template<class KeyType, class ValueType>
-HashNode<KeyType, ValueType>::HashNode() {
-}
+HashNode<KeyType, ValueType>::HashNode() = default;
 /*
    Implement the constructor, the assign method
    and any methods that you may additionally need for the HashTable to work.

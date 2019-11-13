@@ -12,7 +12,7 @@ template <class KeyType, class ValueType>
 class HashTable {
   typedef vector <HashNode<KeyType,ValueType> > Table;
   Table *table; // size of table (# of buckets) is stored in the Table data structure
-  int num;   // number of entries stored in the HashTable;
+  int num = 0;   // number of entries stored in the HashTable;
 
 public:
   HashTable();        // constructor, initializes table of size 11;
@@ -51,17 +51,53 @@ HashTable<KeyType, ValueType>::HashTable(int size) {
 
 template<class KeyType, class ValueType>
 HashTable<KeyType, ValueType>::~HashTable() {
-    //Deconstructor
+    table->clear();
+    delete(table);
 }
 
 template<class KeyType, class ValueType>
-void HashTable<KeyType, ValueType>::insert(KeyType, ValueType) {
+void HashTable<KeyType, ValueType>::insert(KeyType keyIn, ValueType valueIn) {
+    HashNode<KeyType, ValueType> newNode = HashNode<KeyType, ValueType>();
+    newNode.assign(keyIn, valueIn);
+    int hash = hash_function(keyIn);
+    table->at(hash) = newNode;
+    num++;
+}
+
+template<class KeyType, class ValueType>
+ValueType HashTable<KeyType, ValueType>::getValue(KeyType KeyIn) {
+    int hash = hash_function(KeyIn);
+    HashNode<KeyType, ValueType> workingNode = table->at(hash);
+    return workingNode.getValue();
+}
+
+/**
+ * Hash Function
+ * @tparam KeyType
+ * @tparam ValueType
+ * @return
+ */
+template<class KeyType, class ValueType>
+int HashTable<KeyType, ValueType>::hash_function(KeyType input) {
+    int StringSum = 0;
+    for (int s = 0; s < input.length(); s++){
+        StringSum += input[s];
+    }
+    int hashMod =  (StringSum) %31;
+    return (hashMod/table->size()) %31;
+}
+
+template<class KeyType, class ValueType>
+void HashTable<KeyType, ValueType>::erase(KeyType KeyIn) {
+    HashNode<KeyType, ValueType> newNode = HashNode<KeyType, ValueType>();
+    int hash = hash_function(KeyIn);
+    table->at(hash) = newNode;
 
 }
 
 template<class KeyType, class ValueType>
-int HashTable<KeyType, ValueType>::hash_function(KeyType) {
-    return 0;
+void HashTable<KeyType, ValueType>::rehash(int) {
+    //to implement
 }
 
 

@@ -44,7 +44,7 @@ bool test1() {
   T1.insert("World",19);
   T1.insert("abc",12);
   if (T1.getValue("Hello") != 17 || T1.getValue("abc")!=12 || T1.getValue("World") != 19) {
-    cout << "Values are not stored correctly." << endl;
+    cout << "Values are not stored correctly. P2" << endl;
     return false;
   }
 
@@ -52,7 +52,7 @@ bool test1() {
   T2.insert("AAA",42);
   T2.insert("A",76);
   if (T2.getValue("AAAA") != 39 || T2.getValue("A")!=76 || T2.getValue("AAA") != 42) {
-    cout << "Values are not stored correctly." << endl;
+    cout << "Values are not stored correctly. P3" << endl;
     return false;
   } 
 
@@ -60,7 +60,7 @@ bool test1() {
 
   N2.assign("AC21008","21008");
   if (N2.getKey() != "AC21008" || N2.getValue() != "21008") {
-    cout << "Hash Node values are not stored correctly";
+    cout << "Hash Node values are not stored correctly P3";
     return false; 
   }
 
@@ -69,7 +69,7 @@ bool test1() {
   T3.insert("World","19");
   T3.insert("abc","12");
   if (T3.getValue("Hello") != "17" || T3.getValue("abc")!= "12" || T3.getValue("World") != "19") {
-    cout << "String values are not stored correctly." << endl;
+    cout << "String values are not stored correctly P4." << endl;
     return false;
   }
 
@@ -77,7 +77,7 @@ bool test1() {
   T4.insert("AAA","42");
   T4.insert("A","76");
   if (T4.getValue("AAAA") != "39" || T4.getValue("A") != "76" || T4.getValue("AAA") != "42") {
-    cout << "String values are not stored correctly." << endl;
+    cout << "String values are not stored correctly. P5" << endl;
     return false;
   } 
 
