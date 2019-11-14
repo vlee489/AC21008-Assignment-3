@@ -94,8 +94,9 @@ bool test2() {
   T1.insert("World",19);
   T1.insert("abc",12);
   s = T1.size();
+
   T1.rehash(2*s);
-  if (T1.size() < 2*s) { 
+  if (T1.size() < 2*s) {
     cout << "rehash does not work correctly." << endl;
     return false;
   }
@@ -103,6 +104,7 @@ bool test2() {
     cout << "Values are not stored correctly." << endl;
     return false;
   }
+
 
   T1.insert("AAAA",39);
   T1.insert("AAA",42);
@@ -120,8 +122,8 @@ bool test2() {
     return false;
   }
 
-  HTII T3(173); 
-  int num = static_cast<int>(T3.size());
+  HTII T3(177);
+  int num = T3.size();
   for (int i=0; i<num; i++) {
     T3.insert(9*i*i+11*i+13,2*i-1);
   }
