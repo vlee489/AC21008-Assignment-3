@@ -19,6 +19,10 @@ typedef HashTable<string,int> HTSI;
  * @return 1 for success / error code
  */
 int nChar(string txtFile, int n, int k){
+    string nGram;
+    int count;
+    bool nGramExists;
+
     ifstream reader(txtFile);
     if( ! reader ) {
         cout << "Error opening input file" << endl;
@@ -30,6 +34,10 @@ int nChar(string txtFile, int n, int k){
         cout << "Error creating Hash Table" << endl;
         return 2;
     }
-
+    if(n < 0 || k < 0){
+        cout << "Int pram out of accepted range" << endl;
+        return 3;
+    }
+    
 
 }

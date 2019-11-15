@@ -212,6 +212,13 @@ void HashTable<KeyType, ValueType>::rehash(int newSize) {
     table = newTable;
 }
 
+/**
+ * 
+ * @tparam KeyType 
+ * @tparam ValueType 
+ * @param keyIn The key being searched
+ * @return if the key exists in the vector or not
+ */
 template<class KeyType, class ValueType>
 bool HashTable<KeyType, ValueType>::doesContain(KeyType keyIn) {
     HashNode<KeyType, ValueType> checkingNode;
@@ -233,7 +240,6 @@ bool HashTable<KeyType, ValueType>::doesContain(KeyType keyIn) {
             LoopCounter++;
         }
     }
-    return false;
 }
 
 
