@@ -165,7 +165,10 @@ bool test3() {
   for (int i=0; i<num; i++) {
     T3.insert(i,2*i-1);
   }
-  if (T3.size() < static_cast<int>(num)) { cout << "Lost some stored values. - Rehashing is not done correctly." << endl; return false; }
+  if (T3.size() < num) {
+      cout << "Lost some stored values. - Rehashing is not done correctly." << endl;
+      return false;
+  }
   for (int i=0; i<num; i++) {
     if (T3.getValue(i) != 2*i-1) {
       cout << "Integer values are not stored correctly after rehashing." << endl;

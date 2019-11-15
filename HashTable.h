@@ -6,12 +6,13 @@
 
 using namespace std;
 
-enum HashTableError { OUT_OF_MEMORY, KEY_NOT_FOUND, DUPLICATE_KEY, OUT_OF_VECTOR_RANGE }; // extend if necessary
+enum HashTableError { OUT_OF_MEMORY, KEY_NOT_FOUND, DUPLICATE_KEY, OUT_OF_VECTOR_RANGE, MEMORY_ALLOCATION_ERROR }; // extend if necessary
 
 template <class KeyType, class ValueType>
 class HashTable {
   typedef vector <HashNode<KeyType,ValueType> > Table;
   Table *table; // size of table (# of buckets) is stored in the Table data structure
+  Table *newTable; //for storing temp tables
   int num = 0;   // number of entries stored +-0§n the HashTable;
 
 public:
@@ -23,6 +24,7 @@ public:
   int hash_function(KeyType);     // the table's hash function
   int hash_function(KeyType input, int size);
   ValueType getValue(KeyType);    // find and return data associated with key
+  bool doesContain(KeyType); // Used to find if a key exists in the vector or not
 
   void insert(KeyType,ValueType); // insert data associated with key into table
   void erase(KeyType);            // remove key and associated data from table
@@ -60,15 +62,19 @@ template<class KeyType, class ValueType>
 void HashTable<KeyType, ValueType>::insert(KeyType keyIn, ValueType valueIn) {
     int LoopCounter = 0;
     HashNode<KeyType, ValueType> newNode = HashNode<KeyType, ValueType>();
+    if(newNode == NULL){
+        throw MEMORY_ALLOCATION_ERROR;
+    }
     newNode.assign(keyIn, valueIn);
     int hash = hash_function(keyIn);
     cout << "hash: " << hash << "| Key: " << keyIn << "| ValueIn: " << valueIn << "| vectorSize:" << table->size() << endl;
     HashNode<KeyType, ValueType> workingNode;
+    if(num > (table->size()/2)){
+        rehash((table->size()*2));
+    }
     while(true){
         if(LoopCounter > 1){
-            cout << "Looped through vector once" << endl;
-            return;
-            //Throw exception!
+            throw DUPLICATE_KEY;
         }
         if(hash < table->size()){
             workingNode = table->at(hash);
@@ -85,20 +91,22 @@ void HashTable<KeyType, ValueType>::insert(KeyType keyIn, ValueType valueIn) {
             LoopCounter++;
         }
     }
-
 }
 
 template<class KeyType, class ValueType>
 void HashTable<KeyType, ValueType>::erase(KeyType KeyIn) {
     HashNode<KeyType, ValueType> newNode = HashNode<KeyType, ValueType>();
+
+    if(newNode == NULL){
+        throw MEMORY_ALLOCATION_ERROR;
+    }
     int hash = hash_function(KeyIn);
     int LoopCounter = 0;
     cout << "hash: " << hash << "| KeyToDelete: " << KeyIn << "| vectorSize:" << table->size() << endl;
     HashNode<KeyType, ValueType> workingNode;
     while(true){
         if(LoopCounter > 1){
-            cout << "Looped through vector once" << endl;
-            return;
+            throw KEY_NOT_FOUND;
         }
         if(hash < table->size()){
             workingNode = table->at(hash);
@@ -180,10 +188,60 @@ int HashTable<KeyType, ValueType>::hash_function(KeyType input, int size) {
 }
 
 template<class KeyType, class ValueType>
-void HashTable<KeyType, ValueType>::rehash(int) {
-    //to implement
+void HashTable<KeyType, ValueType>::rehash(int newSize) {
+    newTable = new Table();
+    newTable->reserve(newSize);
+    newTable->resize(newSize);
+    HashNode<KeyType, ValueType> workingNodeLocal;
+    HashNode<KeyType, ValueType> checkingNode;
+    int workingHash = 0;
+    bool assigned = false;
+    while(workingHash < table->size()){
+        workingNodeLocal = table->at(workingHash);
+        if(workingNodeLocal.getIsFilled()){
+            int newHash = hash_function(workingNodeLocal.getKey(), newSize);
+            while(!assigned){
+                checkingNode = newTable->at(newHash);
+                if(!checkingNode.getIsFilled()){
+                    newTable->at(newHash) = workingNodeLocal;
+                    assigned = true;
+                }else{
+                    newHash++;
+                    if(newHash > newTable->size()){
+                        newHash = 0;
+                    }
+                }
+            }
+        }
+        assigned = false;
+        workingHash++;
+    }
+    table = newTable;
 }
 
+template<class KeyType, class ValueType>
+bool HashTable<KeyType, ValueType>::doesContain(KeyType keyIn) {
+    HashNode<KeyType, ValueType> checkingNode;
+    int hash = hash_function(keyIn);
+    int LoopCounter = 0;
+    while(true){
+        checkingNode = table->at(hash);
+        if(LoopCounter > 1){
+            return false;
+        }
+        if(hash < table->reserve()){
+            if(checkingNode.getKey() == keyIn){
+                return true;
+            }else{
+                hash++;
+            }
+        }else{
+            hash = 0;
+            LoopCounter++;
+        }
+    }
+    return false;
+}
 
 
 
