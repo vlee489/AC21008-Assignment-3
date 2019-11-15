@@ -35,7 +35,7 @@ public:
 
 template <class KeyType, class ValueType>
 int HashTable<KeyType,ValueType>::size() {
-  return table->size();
+  return (int)table->size();
 }
 
 template <class KeyType, class ValueType>
@@ -62,21 +62,18 @@ template<class KeyType, class ValueType>
 void HashTable<KeyType, ValueType>::insert(KeyType keyIn, ValueType valueIn) {
     int LoopCounter = 0;
     HashNode<KeyType, ValueType> newNode = HashNode<KeyType, ValueType>();
-    if(newNode == NULL){
-        throw MEMORY_ALLOCATION_ERROR;
-    }
     newNode.assign(keyIn, valueIn);
     int hash = hash_function(keyIn);
-    //cout << "hash: " << hash << "| Key: " << keyIn << "| ValueIn: " << valueIn << "| vectorSize:" << table->size() << endl;
+    //cout << "hash: " << hash << "| Key: " << keyIn << "| ValueIn: " << valueIn << "| vectorSize:" << (int)table->size() << endl;
     HashNode<KeyType, ValueType> workingNode;
-    if(num > (table->size()/2)){
-        rehash((table->size()*2));
+    if(num > static_cast<long long>((int)table->size()/2)){
+        rehash(((int)table->size()*2));
     }
     while(true){
         if(LoopCounter > 1){
             throw DUPLICATE_KEY;
         }
-        if(hash < table->size()){
+        if(hash < (int)table->size()){
             workingNode = table->at(hash);
             if(!workingNode.getIsFilled()){
                 table->at(hash) = newNode;
@@ -96,19 +93,15 @@ void HashTable<KeyType, ValueType>::insert(KeyType keyIn, ValueType valueIn) {
 template<class KeyType, class ValueType>
 void HashTable<KeyType, ValueType>::erase(KeyType KeyIn) {
     HashNode<KeyType, ValueType> newNode = HashNode<KeyType, ValueType>();
-
-    if(newNode == NULL){
-        throw MEMORY_ALLOCATION_ERROR;
-    }
     int hash = hash_function(KeyIn);
     int LoopCounter = 0;
-    //cout << "hash: " << hash << "| KeyToDelete: " << KeyIn << "| vectorSize:" << table->size() << endl;
+    //cout << "hash: " << hash << "| KeyToDelete: " << KeyIn << "| vectorSize:" << (int)table->size() << endl;
     HashNode<KeyType, ValueType> workingNode;
     while(true){
         if(LoopCounter > 1){
             throw KEY_NOT_FOUND;
         }
-        if(hash < table->size()){
+        if(hash < (int)table->size()){
             workingNode = table->at(hash);
             if(workingNode.getKey() == KeyIn){
                 table->at(hash) = newNode;
@@ -133,7 +126,7 @@ ValueType HashTable<KeyType, ValueType>::getValue(KeyType KeyIn) {
         if (LoopCounter > 1) {
             return 0;
         }
-        if (hash < table->size()) {
+        if (hash < (int)table->size()) {
             workingNode = table->at(hash);
             if (workingNode.getKey() != KeyIn) {
                 hash++;
@@ -157,7 +150,7 @@ template<class KeyType, class ValueType>
 int HashTable<KeyType, ValueType>::hash_function(KeyType input) {
     hash<KeyType> hashVal;
     int hashKey = (hashVal(input) %31);
-    while(hashKey > table->size()){
+    while(hashKey > (int)table->size()){
         hashKey = hashKey/2;
     }
     if(hashKey != 0){
@@ -196,7 +189,7 @@ void HashTable<KeyType, ValueType>::rehash(int newSize) {
     HashNode<KeyType, ValueType> checkingNode;
     int workingHash = 0;
     bool assigned = false;
-    while(workingHash < table->size()){
+    while(workingHash < (int)table->size()){
         workingNodeLocal = table->at(workingHash);
         if(workingNodeLocal.getIsFilled()){
             int newHash = hash_function(workingNodeLocal.getKey(), newSize);
@@ -207,7 +200,7 @@ void HashTable<KeyType, ValueType>::rehash(int newSize) {
                     assigned = true;
                 }else{
                     newHash++;
-                    if(newHash > newTable->size()){
+                    if(newHash > (int)newTable->size()){
                         newHash = 0;
                     }
                 }
