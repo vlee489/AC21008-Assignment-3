@@ -13,7 +13,7 @@ class HashTable {
   typedef vector <HashNode<KeyType,ValueType> > Table;
   Table *table; // size of table (# of buckets) is stored in the Table data structure
   Table *newTable; //for storing temp tables
-  int num = 0;   // number of entries stored +-0§n the HashTable;
+  int num = 0;   // number of entries stored in the HashTable;
 
 public:
   HashTable();        // constructor, initializes table of size 11;
@@ -67,7 +67,7 @@ void HashTable<KeyType, ValueType>::insert(KeyType keyIn, ValueType valueIn) {
     }
     newNode.assign(keyIn, valueIn);
     int hash = hash_function(keyIn);
-    cout << "hash: " << hash << "| Key: " << keyIn << "| ValueIn: " << valueIn << "| vectorSize:" << table->size() << endl;
+    //cout << "hash: " << hash << "| Key: " << keyIn << "| ValueIn: " << valueIn << "| vectorSize:" << table->size() << endl;
     HashNode<KeyType, ValueType> workingNode;
     if(num > (table->size()/2)){
         rehash((table->size()*2));
@@ -102,7 +102,7 @@ void HashTable<KeyType, ValueType>::erase(KeyType KeyIn) {
     }
     int hash = hash_function(KeyIn);
     int LoopCounter = 0;
-    cout << "hash: " << hash << "| KeyToDelete: " << KeyIn << "| vectorSize:" << table->size() << endl;
+    //cout << "hash: " << hash << "| KeyToDelete: " << KeyIn << "| vectorSize:" << table->size() << endl;
     HashNode<KeyType, ValueType> workingNode;
     while(true){
         if(LoopCounter > 1){
