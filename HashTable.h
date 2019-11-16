@@ -229,7 +229,7 @@ bool HashTable<KeyType, ValueType>::doesContain(KeyType keyIn) {
         if(LoopCounter > 1){
             return false;
         }
-        if(hash < table->size()){
+        if(hash < (int)table->size()){
             if(checkingNode.getKey() == keyIn){
                 return true;
             }else{

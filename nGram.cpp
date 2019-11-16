@@ -26,6 +26,7 @@ int nChar(const string& txtFile, int n, int k){
     }
 
     string nGram;
+    string inputString;
     char letter;
     int count = 0;
 
@@ -38,6 +39,7 @@ int nChar(const string& txtFile, int n, int k){
     // Gets the count of the number of letters
     while(reader.get(letter)) {
         count++;
+        inputString.append(reinterpret_cast<const char *>(letter));
     }
 
     int iteratorAmount = (count-n); // stores the number of times we need to go through the file for the nchar
@@ -46,11 +48,11 @@ int nChar(const string& txtFile, int n, int k){
     int toChar = n+1;
 
     for(int i = 0; i < iteratorAmount; i++){
-        while(reader.get(letter)) {
+        for(char& l : inputString) {
             iterator++;
             //forms the nGram
             if(iterator > fromChar && iterator < toChar){
-                nGram.append(reinterpret_cast<const char *>(letter));
+                nGram.append(reinterpret_cast<const char *>(l));
             }
             //Has formed the nGram
             if(iterator > toChar){
