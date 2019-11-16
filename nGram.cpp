@@ -121,7 +121,7 @@ int nChar(const string& txtFile, int n, int k){
             int workingID = vectorLocations.front();
             vectorLocations.pop_front();
             if(hashTable.getValueAtVector(workingID) == highestValue){
-                float frequencyPercentage = roundf(((float)hashTable.getValueAtVector(workingID)/2)*100);
+                float frequencyPercentage = roundf(((float)hashTable.getValueAtVector(workingID)/(float)totalValues)*100);
                 cout << frequencyPercentage << ":" << hashTable.getKeyAtVector(workingID) << endl;
                 hasPrint = true;
                 printCounter--;
