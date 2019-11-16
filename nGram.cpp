@@ -165,8 +165,15 @@ int nWord(const string &txtFile, int n, int k) {
     string inputString;
     char letter;
     while (reader.get(letter)) {
-        if (letter != '\n') {
-            inputString += letter;
+        if(letter == '.'){
+            inputString += ' ';
+        }else if(letter == '!'){
+            inputString += ' ';
+        }else if(letter == '?') {
+            inputString += ' ';
+        }else if(letter != '\n') {
+                inputString += letter;
+            }
         }
     }
 
