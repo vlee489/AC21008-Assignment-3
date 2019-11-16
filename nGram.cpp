@@ -138,7 +138,7 @@ int nChar(const string& txtFile, int n, int k){
 
     }
 
-
+    cout << hashTable.getNum() << endl;
     return 0;
 
 }

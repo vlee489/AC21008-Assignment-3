@@ -23,9 +23,11 @@ public:
   int size();      // returns size of the hash table (number of buckets)
   int hash_function(KeyType);     // the table's hash function
   int hash_function(KeyType input, int size);
+
   ValueType getValue(KeyType);    // find and return data associated with key
   ValueType getValueAtVector(int); // Gets the value at a certain vector
   KeyType getKeyAtVector(int); // Returns the key at a certain vector;
+
   bool getIfFilledAtVector(int); // Returns weather a vector has been filled at a certain vector
   bool doesContain(KeyType); // Used to find if a key exists in the vector or not
 
@@ -34,6 +36,8 @@ public:
 
   void rehash(int); // sets a new size for the hash table, rehashes the hash table
   void printVector(); // prints out vector where the Hashnode is filled.
+
+  int getNum(); // returns num
 };
 
 template <class KeyType, class ValueType>
@@ -108,6 +112,7 @@ void HashTable<KeyType, ValueType>::erase(KeyType KeyIn) {
             workingNode = table->at(hash);
             if(workingNode.getKey() == KeyIn){
                 table->at(hash) = newNode;
+                num--;
                 return;
             }else{
                 hash++;
@@ -281,6 +286,11 @@ bool HashTable<KeyType, ValueType>::getIfFilledAtVector(int vectorID) {
     }
     HashNode<KeyType, ValueType> checkingNode = table->at(vectorID);
     return checkingNode.getIsFilled();
+}
+
+template<class KeyType, class ValueType>
+int HashTable<KeyType, ValueType>::getNum() {
+    return num;
 }
 
 
