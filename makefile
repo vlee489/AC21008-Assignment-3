@@ -23,6 +23,11 @@ test2: test2.cpp
 test3: test3.cpp
 	# Compiles Test 3
 	$(CC) $(CVERSION) $(CFLAGS) -o test3.o test3.cpp
+
+nGram: nGram.cpp
+	# Compiles nGram
+	$(CC) $(CVERSION) $(CFLAGS) -o nGram.o nGram.cpp
+
 clean:
 	# Deletes binary files
 	-rm $(objects) *.o
