@@ -224,7 +224,61 @@ int nWord(const string &txtFile, int n, int k) {
         toWord++;
     }
 
-    hashTable.printVector();
+    // START OF nGRAM OUTPUT TO SCREEN
+    int highestValue = 0;
+    int printCounter = k;
+    int totalValues = 0;
+    // I should be using vectors instead of lists for this
+    // welcome to knowing python
+    list<int> vectorLocations;
+    list<int> tempList;
+
+    int totalEntriesInHashTable = hashTable.getNum();
+    if(printCounter > totalEntriesInHashTable){
+        printCounter = totalEntriesInHashTable;
+    }
+
+    // forms a list of all locations with a key/value pair in vector
+    // and works out the largest value.
+    for (int id = 0; id < hashTable.size(); id++) {
+        if (hashTable.getIfFilledAtVector(id)) {
+            vectorLocations.push_back(id);
+            totalValues += hashTable.getValueAtVector(id);
+            if (hashTable.getValueAtVector(id) > highestValue) {
+                highestValue = hashTable.getValueAtVector(id);
+            }
+        }
+    }
+
+    while (printCounter > 0) {
+        bool hasPrint = false;
+        int forTime = (int) vectorLocations.size();
+        for (int vID = 0; vID < forTime; vID++) {
+            int workingID = vectorLocations.front();
+            vectorLocations.pop_front();
+            if (hashTable.getValueAtVector(workingID) == highestValue) {
+                float frequencyPercentage = (((float) hashTable.getValueAtVector(workingID) / (float) totalValues) *
+                                             100);
+                printf("%.2f", frequencyPercentage);
+                cout << ":" << hashTable.getKeyAtVector(workingID) << endl;
+                hasPrint = true;
+                printCounter--;
+                break;
+            } else {
+                tempList.push_back(workingID);
+            }
+        }
+        if (!hasPrint) {
+            highestValue--;
+        }
+
+        for (int q = 0; q < (int) tempList.size(); q++) {
+            int placeInt = tempList.front();
+            tempList.pop_front();
+            vectorLocations.push_back(placeInt);
+        }
+
+    }
     return 0;
 }
 
