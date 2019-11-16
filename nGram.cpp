@@ -171,9 +171,8 @@ int nWord(const string &txtFile, int n, int k) {
             inputString += ' ';
         }else if(letter == '?') {
             inputString += ' ';
-        }else if(letter != '\n') {
-                inputString += letter;
-            }
+        }else if(letter != '\n'){
+            inputString += letter;
         }
     }
 
@@ -187,17 +186,16 @@ int nWord(const string &txtFile, int n, int k) {
         count++;
     }
 
-    int iteratorAmount = (count - n); // stores the number of times we need to go through the file for the nchar
+    int iteratorAmount = (count - n)+1; // stores the number of times we need to go through the file for the nchar
     int fromWord = 0;
     int toWord = n;
     string nGram;
     for (int i = 0; i < iteratorAmount; i++) {
         for (int x = fromWord; x < toWord; x++) {
-            cout << wordList[x] << endl;
             nGram += wordList[x];
             nGram += ' ';
         }
-
+        cout << nGram << endl;
         if (hashTable.doesContain(nGram)) { // if nGram is already in table
             int newValue = hashTable.getValue(nGram) + 1;
             hashTable.erase(nGram);
