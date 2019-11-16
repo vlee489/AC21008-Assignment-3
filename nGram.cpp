@@ -90,7 +90,6 @@ int nChar(const string& txtFile, int n, int k){
     reader.close();
 
     hashTable.printVector();
-    cout << hashTable.size() << endl;
 
     // END OF nGram COUNTING
 
@@ -121,7 +120,8 @@ int nChar(const string& txtFile, int n, int k){
             int workingID = vectorLocations.front();
             vectorLocations.pop_front();
             if(hashTable.getValueAtVector(workingID) == highestValue){
-                float frequencyPercentage = roundf(((float)hashTable.getValueAtVector(workingID)/(float)totalValues)*100);
+                cout << hashTable.getValueAtVector(workingID) << " : " << totalValues << endl;
+                float frequencyPercentage = (((float)hashTable.getValueAtVector(workingID)/(float)totalValues)*100);
                 cout << frequencyPercentage << ":" << hashTable.getKeyAtVector(workingID) << endl;
                 hasPrint = true;
                 printCounter--;
@@ -142,7 +142,6 @@ int nChar(const string& txtFile, int n, int k){
 
     }
 
-    cout << hashTable.getNum() << endl;
     return 0;
 
 }
