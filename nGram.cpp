@@ -208,7 +208,6 @@ int nWord(const string &txtFile, int n, int k) {
             nGram += wordList[x];
             nGram += ' ';
         }
-        cout << nGram << endl;
         if (hashTable.doesContain(nGram)) { // if nGram is already in table
             int newValue = hashTable.getValue(nGram) + 1;
             hashTable.erase(nGram);
@@ -282,6 +281,12 @@ int nWord(const string &txtFile, int n, int k) {
     return 0;
 }
 
+/**
+ * Main method
+ * @param argc Number arguments passed in via cmd
+ * @param argv  array of argument strings
+ * @return error code/success code
+ */
 int main(int argc, char *argv[]) {
     if (argc == 0) {
         nChar("inputfile.txt", 3, 10);
@@ -296,7 +301,20 @@ int main(int argc, char *argv[]) {
         string fileName = argv[1];
         int nSize = (int) argv[2];
         int kSize = (int) argv[3];
-        nChar(fileName, nSize, 3);
+        nChar(fileName, nSize, kSize);
+    } else if (argc == 4){
+        string fileName = argv[1];
+        int nSize = (int) argv[2];
+        int kSize = (int) argv[3];
+        string mode = argv[4];
+        if(mode == "word"){
+            nWord(fileName, nSize, kSize);
+        }else if(mode == "char"){
+            nChar(fileName, nSize, kSize);
+        }else if(mode == "decimal"){
+            cout << "Not yet implemented" << endl;
+        }else{
+            cout << "Invalid Pram Error" << endl;
+        }
     }
-
 }
