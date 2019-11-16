@@ -225,11 +225,11 @@ bool HashTable<KeyType, ValueType>::doesContain(KeyType keyIn) {
     int hash = hash_function(keyIn);
     int LoopCounter = 0;
     while(true){
-        checkingNode = table->at(hash);
         if(LoopCounter > 1){
             return false;
         }
         if(hash < (int)table->size()){
+            checkingNode = table->at(hash);
             if(checkingNode.getKey() == keyIn){
                 return true;
             }else{

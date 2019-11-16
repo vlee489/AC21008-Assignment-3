@@ -39,23 +39,30 @@ int nChar(const string& txtFile, int n, int k){
     // Gets the count of the number of letters
     while(reader.get(letter)) {
         count++;
-        inputString += letter;
+        if(letter == ' '){
+            inputString += '_';
+        }else if(letter != '\n'){
+            inputString += letter;
+        }
+
     }
 
     int iteratorAmount = (count-n); // stores the number of times we need to go through the file for the nchar
     int iterator = 0;
     int fromChar = -1;
-    int toChar = n+1;
+    int toChar = n;
+    int nGramLength = 0;
 
     for(int i = 0; i < iteratorAmount; i++){
         for(char& l : inputString) {
             iterator++;
             //forms the nGram
             if(iterator > fromChar && iterator < toChar){
+                nGramLength++;
                 nGram += l;
             }
             //Has formed the nGram
-            if(iterator > toChar){
+            if(nGramLength == n){
                 cout << "nGram: " << nGram << endl;
                 if(hashTable.doesContain(nGram)){ // if nGram is already in table
                     int newValue = hashTable.getValue(nGram) + 1;
@@ -72,6 +79,7 @@ int nChar(const string& txtFile, int n, int k){
         // reset variable used for each nGram
         iterator = 0;
         nGram = "";
+        nGramLength = 0;
         // Set char to move up one char in list;
         fromChar++;
         toChar++;
@@ -84,4 +92,5 @@ int nChar(const string& txtFile, int n, int k){
 int main(){
     nChar("4001714.txt", 3, 10);
     hashTable.printVector();
+    cout << hashTable.size() << endl;
 }
