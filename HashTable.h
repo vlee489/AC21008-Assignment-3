@@ -30,7 +30,7 @@ public:
   void erase(KeyType);            // remove key and associated data from table
 
   void rehash(int); // sets a new size for the hash table, rehashes the hash table
-  // extend if necessary
+  void printVector(); // prints out vector where the Hashnode is filled.
 };
 
 template <class KeyType, class ValueType>
@@ -229,7 +229,7 @@ bool HashTable<KeyType, ValueType>::doesContain(KeyType keyIn) {
         if(LoopCounter > 1){
             return false;
         }
-        if(hash < table->reserve()){
+        if(hash < table->size()){
             if(checkingNode.getKey() == keyIn){
                 return true;
             }else{
@@ -242,11 +242,16 @@ bool HashTable<KeyType, ValueType>::doesContain(KeyType keyIn) {
     }
 }
 
+template<class KeyType, class ValueType>
+void HashTable<KeyType, ValueType>::printVector() {
+    HashNode<KeyType, ValueType> checkingNode;
+    for (int v = 0; v < (int)table->size(); v++){
+        checkingNode = table->at(v);
+        if(checkingNode.getIsFilled()){
+            cout << "Key:" << checkingNode.getKey() << "| Value: " << checkingNode.getValue() << "| VectorLocation: " << v << endl;
+        }
+    }
+}
 
 
-/* Implement the 
-- Constructors, Destructor
-- hash_function, insert, getValue methods
-- erase, and rehash methods 
-*/
 #endif
