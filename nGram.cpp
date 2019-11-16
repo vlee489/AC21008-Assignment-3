@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <list>
+#include <math.h>
 
 #include "HashTable.h"
 
@@ -95,6 +96,7 @@ int nChar(const string& txtFile, int n, int k){
 
     int highestValue = 0;
     int printCounter = k;
+    int totalValues = 0;
     // I should be using vectors instead of lists for this
     // welcome to knowing python
     list <int> vectorLocations;
@@ -105,6 +107,7 @@ int nChar(const string& txtFile, int n, int k){
     for(int id = 0; id < hashTable.size(); id++){
         if(hashTable.getIfFilledAtVector(id)){
             vectorLocations.push_back(id);
+            totalValues += hashTable.getValueAtVector(id);
             if(hashTable.getValueAtVector(id) > highestValue){
                 highestValue = hashTable.getValueAtVector(id);
             }
@@ -118,7 +121,8 @@ int nChar(const string& txtFile, int n, int k){
             int workingID = vectorLocations.front();
             vectorLocations.pop_front();
             if(hashTable.getValueAtVector(workingID) == highestValue){
-                cout << hashTable.getKeyAtVector(workingID) << ":" << hashTable.getValueAtVector(workingID) << endl;
+                float frequencyPercentage = roundf(((float)hashTable.getValueAtVector(workingID)/2)*100);
+                cout << frequencyPercentage << ":" << hashTable.getKeyAtVector(workingID) << endl;
                 hasPrint = true;
                 printCounter--;
                 break;
