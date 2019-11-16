@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <list>
 
 #include "HashTable.h"
 
@@ -20,7 +21,7 @@ HTSI hashTable;
  * @return 0 for success / error code
  */
 int nChar(const string& txtFile, int n, int k){
-    if(n < 0 || k < 0){
+    if(n <= 0 || k <= 0){
         cout << "Int pram out of accepted range" << endl;
         return 3;
     }
@@ -37,6 +38,7 @@ int nChar(const string& txtFile, int n, int k){
     }
 
     // Gets the count of the number of letters
+    // and forms a string
     while(reader.get(letter)) {
         count++;
         if(letter == ' '){
@@ -68,11 +70,10 @@ int nChar(const string& txtFile, int n, int k){
                     int newValue = hashTable.getValue(nGram) + 1;
                     hashTable.erase(nGram);
                     hashTable.insert(nGram, newValue);
-                    break;
                 }else{// if nGram isn't in table
                     hashTable.insert(nGram, 1);
-                    break;
                 }
+                break;
             }
 
         }
@@ -86,7 +87,44 @@ int nChar(const string& txtFile, int n, int k){
     }
 
     reader.close();
+    // END OF nGram COUNTING
+
+    int highestValue = 0;
+    int printCounter = k;
+    list <int> vectorLocations;
+
+    // forms a list of all locations with a key/value pair in vector
+    // and works out the largest value.
+    for(int id = 0; id < hashTable.size(); id++){
+        if(hashTable.getIfFilledAtVector(id)){
+            vectorLocations.push_back(id);
+            if(hashTable.getValueAtVector(id) > highestValue){
+                highestValue = hashTable.getValueAtVector(id);
+            }
+        }
+    }
+
+    while(printCounter > 0){
+        bool hasPrint = false;
+        int forTime = (int)vectorLocations.size();
+        for(int vID = 0; vID < forTime; vID++){
+            int workingID = vectorLocations.front();
+            if(hashTable.getValueAtVector(workingID) == highestValue){
+                cout << hashTable.getKeyAtVector(workingID) << ":" << hashTable.getValueAtVector(workingID) << endl;
+                vectorLocations.pop_front();
+                hasPrint = true;
+                printCounter--;
+            }
+        }
+        if(!hasPrint){
+            highestValue--;
+        }
+
+    }
+
+
     return 0;
+
 }
 
 int main(){

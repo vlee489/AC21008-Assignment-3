@@ -6,7 +6,7 @@
 
 using namespace std;
 
-enum HashTableError { OUT_OF_MEMORY, KEY_NOT_FOUND, DUPLICATE_KEY, OUT_OF_VECTOR_RANGE, MEMORY_ALLOCATION_ERROR }; // extend if necessary
+enum HashTableError { OUT_OF_MEMORY, KEY_NOT_FOUND, DUPLICATE_KEY, OUT_OF_VECTOR_RANGE, MEMORY_ALLOCATION_ERROR}; // extend if necessary
 
 template <class KeyType, class ValueType>
 class HashTable {
@@ -24,6 +24,9 @@ public:
   int hash_function(KeyType);     // the table's hash function
   int hash_function(KeyType input, int size);
   ValueType getValue(KeyType);    // find and return data associated with key
+  ValueType getValueAtVector(int); // Gets the value at a certain vector
+  KeyType getKeyAtVector(int); // Returns the key at a certain vector;
+  bool getIfFilledAtVector(int); // Returns weather a vector has been filled at a certain vector
   bool doesContain(KeyType); // Used to find if a key exists in the vector or not
 
   void insert(KeyType,ValueType); // insert data associated with key into table
@@ -251,6 +254,33 @@ void HashTable<KeyType, ValueType>::printVector() {
             cout << "Key:" << checkingNode.getKey() << "| Value: " << checkingNode.getValue() << "| VectorLocation: " << v << endl;
         }
     }
+}
+
+template<class KeyType, class ValueType>
+ValueType HashTable<KeyType, ValueType>::getValueAtVector(int vectorID) {
+    if(vectorID >= table->size()){
+        throw OUT_OF_VECTOR_RANGE;
+    }
+    HashNode<KeyType, ValueType> checkingNode = table->at(vectorID);
+    return checkingNode.getValue();
+}
+
+template<class KeyType, class ValueType>
+KeyType HashTable<KeyType, ValueType>::getKeyAtVector(int vectorID) {
+    if(vectorID >= table->size()){
+        throw OUT_OF_VECTOR_RANGE;
+    }
+    HashNode<KeyType, ValueType> checkingNode = table->at(vectorID);
+    return checkingNode.getKey();
+}
+
+template<class KeyType, class ValueType>
+bool HashTable<KeyType, ValueType>::getIfFilledAtVector(int vectorID) {
+    if(vectorID >= table->size()){
+        throw OUT_OF_VECTOR_RANGE;
+    }
+    HashNode<KeyType, ValueType> checkingNode = table->at(vectorID);
+    return checkingNode.getIsFilled();
 }
 
 
