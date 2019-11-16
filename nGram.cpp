@@ -66,7 +66,6 @@ int nChar(const string& txtFile, int n, int k){
             }
             //Has formed the nGram
             if(nGramLength == n){
-                cout << "nGram: " << nGram << endl;
                 if(hashTable.doesContain(nGram)){ // if nGram is already in table
                     int newValue = hashTable.getValue(nGram) + 1;
                     hashTable.erase(nGram);
@@ -88,8 +87,6 @@ int nChar(const string& txtFile, int n, int k){
     }
 
     reader.close();
-
-    hashTable.printVector();
 
     // END OF nGram COUNTING
 
@@ -143,9 +140,8 @@ int nChar(const string& txtFile, int n, int k){
     }
 
     return 0;
-
 }
 
 int main(){
-    nChar("4001714.txt", 3, 10);
+    nChar("inputfile.txt", 3, 10);
 }

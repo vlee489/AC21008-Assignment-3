@@ -263,7 +263,7 @@ void HashTable<KeyType, ValueType>::printVector() {
 
 template<class KeyType, class ValueType>
 ValueType HashTable<KeyType, ValueType>::getValueAtVector(int vectorID) {
-    if(vectorID >= table->size()){
+    if(vectorID >= (int)table->size()){
         throw OUT_OF_VECTOR_RANGE;
     }
     HashNode<KeyType, ValueType> checkingNode = table->at(vectorID);
@@ -272,7 +272,7 @@ ValueType HashTable<KeyType, ValueType>::getValueAtVector(int vectorID) {
 
 template<class KeyType, class ValueType>
 KeyType HashTable<KeyType, ValueType>::getKeyAtVector(int vectorID) {
-    if(vectorID >= table->size()){
+    if(vectorID >= (int)table->size()){
         throw OUT_OF_VECTOR_RANGE;
     }
     HashNode<KeyType, ValueType> checkingNode = table->at(vectorID);
@@ -281,7 +281,7 @@ KeyType HashTable<KeyType, ValueType>::getKeyAtVector(int vectorID) {
 
 template<class KeyType, class ValueType>
 bool HashTable<KeyType, ValueType>::getIfFilledAtVector(int vectorID) {
-    if(vectorID >= table->size()){
+    if(vectorID >= (int)table->size()){
         throw OUT_OF_VECTOR_RANGE;
     }
     HashNode<KeyType, ValueType> checkingNode = table->at(vectorID);
