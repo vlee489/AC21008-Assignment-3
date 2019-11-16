@@ -186,7 +186,8 @@ int nWord(const string &txtFile, int n, int k) {
     string nGram;
     for (int i = 0; i < iteratorAmount; i++) {
         for (int x = fromWord; x < toWord; x++) {
-            nGram += vectorWord[x];
+            cout << wordList[x] << endl;
+            nGram += wordList[x];
             nGram += ' ';
         }
 
