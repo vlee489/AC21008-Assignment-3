@@ -87,11 +87,18 @@ int nChar(const string& txtFile, int n, int k){
     }
 
     reader.close();
+
+    hashTable.printVector();
+    cout << hashTable.size() << endl;
+
     // END OF nGram COUNTING
 
     int highestValue = 0;
     int printCounter = k;
+    // I should be using vectors instead of lists for this
+    // welcome to knowing python
     list <int> vectorLocations;
+    list <int> tempList;
 
     // forms a list of all locations with a key/value pair in vector
     // and works out the largest value.
@@ -109,15 +116,24 @@ int nChar(const string& txtFile, int n, int k){
         int forTime = (int)vectorLocations.size();
         for(int vID = 0; vID < forTime; vID++){
             int workingID = vectorLocations.front();
+            vectorLocations.pop_front();
             if(hashTable.getValueAtVector(workingID) == highestValue){
                 cout << hashTable.getKeyAtVector(workingID) << ":" << hashTable.getValueAtVector(workingID) << endl;
-                vectorLocations.pop_front();
                 hasPrint = true;
                 printCounter--;
+                break;
+            }else{
+                tempList.push_back(workingID);
             }
         }
         if(!hasPrint){
             highestValue--;
+        }
+
+        for(int q = 0; q < (int)tempList.size(); q++){
+            int placeInt = tempList.front();
+            tempList.pop_front();
+            vectorLocations.push_back(placeInt);
         }
 
     }
@@ -129,6 +145,4 @@ int nChar(const string& txtFile, int n, int k){
 
 int main(){
     nChar("4001714.txt", 3, 10);
-    hashTable.printVector();
-    cout << hashTable.size() << endl;
 }
