@@ -99,6 +99,11 @@ int nChar(const string &txtFile, int n, int k) {
     list<int> vectorLocations;
     list<int> tempList;
 
+    int totalEntriesInHashTable = hashTable.getNum();
+    if(printCounter > totalEntriesInHashTable){
+        printCounter = totalEntriesInHashTable;
+    }
+
     // forms a list of all locations with a key/value pair in vector
     // and works out the largest value.
     for (int id = 0; id < hashTable.size(); id++) {
@@ -167,6 +172,8 @@ int nWord(const string &txtFile, int n, int k) {
     while (reader.get(letter)) {
         if(letter == '.'){
             inputString += ' ';
+        }else if(letter == ','){
+            inputString += ' ';
         }else if(letter == '!'){
             inputString += ' ';
         }else if(letter == '?') {
@@ -186,12 +193,18 @@ int nWord(const string &txtFile, int n, int k) {
         count++;
     }
 
+    reader.close();
+
     int iteratorAmount = (count - n)+1; // stores the number of times we need to go through the file for the nchar
     int fromWord = 0;
     int toWord = n;
     string nGram;
     for (int i = 0; i < iteratorAmount; i++) {
         for (int x = fromWord; x < toWord; x++) {
+            if(x >= wordList.size()){
+                cout << "nGram assembled has gone out of range of the vector containing words" << endl;
+                return 10;
+            }
             nGram += wordList[x];
             nGram += ' ';
         }
