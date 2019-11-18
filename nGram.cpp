@@ -100,7 +100,7 @@ int nChar(const string &txtFile, int n, int k) {
     list<int> tempList;
 
     int totalEntriesInHashTable = hashTable.getNum();
-    if(printCounter > totalEntriesInHashTable){
+    if (printCounter > totalEntriesInHashTable) {
         printCounter = totalEntriesInHashTable;
     }
 
@@ -173,32 +173,32 @@ int nWord(const string &txtFile, int n, int k) {
     // That can break the nWord processing
     bool justPlacedSpace = false;
     while (reader.get(letter)) {
-        if(letter == '.'){
-            if(!justPlacedSpace){
+        if (letter == '.') {
+            if (!justPlacedSpace) {
                 inputString += ' ';
                 justPlacedSpace = true;
             }
-        }else if(letter == ','){
-            if(!justPlacedSpace){
+        } else if (letter == ',') {
+            if (!justPlacedSpace) {
                 inputString += ' ';
                 justPlacedSpace = true;
             }
-        }else if(letter == '!'){
-            if(!justPlacedSpace){
+        } else if (letter == '!') {
+            if (!justPlacedSpace) {
                 inputString += ' ';
                 justPlacedSpace = true;
             }
-        }else if(letter == '?') {
-            if(!justPlacedSpace){
+        } else if (letter == '?') {
+            if (!justPlacedSpace) {
                 inputString += ' ';
                 justPlacedSpace = true;
             }
-        }else if(letter == ' ') {
-            if(!justPlacedSpace){
+        } else if (letter == ' ') {
+            if (!justPlacedSpace) {
                 inputString += ' ';
                 justPlacedSpace = true;
             }
-        }else if(letter != '\n'){
+        } else if (letter != '\n') {
             inputString += letter;
             justPlacedSpace = false;
         }
@@ -216,13 +216,13 @@ int nWord(const string &txtFile, int n, int k) {
 
     reader.close();
 
-    int iteratorAmount = (count - n)+1; // stores the number of times we need to go through the file for the nchar
+    int iteratorAmount = (count - n) + 1; // stores the number of times we need to go through the file for the nchar
     int fromWord = 0;
     int toWord = n;
     string nGram;
     for (int i = 0; i < iteratorAmount; i++) {
         for (int x = fromWord; x < toWord; x++) {
-            if(x >= wordList.size()){
+            if (x >= wordList.size()) {
                 cout << "nGram assembled has gone out of range of the vector containing words" << endl;
                 return 10;
             }
@@ -254,7 +254,128 @@ int nWord(const string &txtFile, int n, int k) {
     list<int> tempList;
 
     int totalEntriesInHashTable = hashTable.getNum();
-    if(printCounter > totalEntriesInHashTable){
+    if (printCounter > totalEntriesInHashTable) {
+        printCounter = totalEntriesInHashTable;
+    }
+
+    // forms a list of all locations with a key/value pair in vector
+    // and works out the largest value.
+    for (int id = 0; id < hashTable.size(); id++) {
+        if (hashTable.getIfFilledAtVector(id)) {
+            vectorLocations.push_back(id);
+            totalValues += hashTable.getValueAtVector(id);
+            if (hashTable.getValueAtVector(id) > highestValue) {
+                highestValue = hashTable.getValueAtVector(id);
+            }
+        }
+    }
+
+    while (printCounter > 0) {
+        bool hasPrint = false;
+        int forTime = (int) vectorLocations.size();
+        for (int vID = 0; vID < forTime; vID++) {
+            int workingID = vectorLocations.front();
+            vectorLocations.pop_front();
+            if (hashTable.getValueAtVector(workingID) == highestValue) {
+                float frequencyPercentage = (((float) hashTable.getValueAtVector(workingID) / (float) totalValues) *
+                                             100);
+                printf("%.2f", frequencyPercentage);
+                cout << ":" << hashTable.getKeyAtVector(workingID) << endl;
+                hasPrint = true;
+                printCounter--;
+                break;
+            } else {
+                tempList.push_back(workingID);
+            }
+        }
+        if (!hasPrint) {
+            highestValue--;
+        }
+
+        for (int q = 0; q < (int) tempList.size(); q++) {
+            int placeInt = tempList.front();
+            tempList.pop_front();
+            vectorLocations.push_back(placeInt);
+        }
+
+    }
+    return 0;
+}
+
+int nDecimal(const string &txtFile, int n, int k) {
+    if (n <= 0 || k <= 0) {
+        cout << "Int pram out of accepted range" << endl;
+        return 3;
+    }
+
+    ifstream reader(txtFile);
+    if (!reader) {
+        cout << "Error opening input file" << endl;
+        return 1;
+    }
+
+    // Gets the count of the number of letters
+    // and forms a string
+    char letter;
+    string inputString;
+    while (reader.get(letter)) {
+        if (letter != '\n' && letter != ' ') {
+            inputString += letter;
+        }
+    }
+
+    // This vector stores each int
+    vector <int> intVector;
+    int count = 0;
+    for(char& c : inputString) {
+        try{
+            intVector.push_back((int)c);
+            count++;
+        }catch(...){
+            cout << "Failed to process char: " << "\"" << c << "\"" << endl;
+        }
+    }
+
+    int iteratorAmount = (count - n) + 1; // stores the number of times we need to go through the file for the nchar
+    int fromWord = 0;
+    int toWord = n;
+    string nGram;
+    for (int i = 0; i < iteratorAmount; i++) {
+        for (int x = fromWord; x < toWord; x++) {
+            if (x >= intVector.size()) {
+                cout << "nGram assembled has gone out of range of the vector containing Ints" << endl;
+                return 10;
+            }
+            nGram += (char)intVector[x];
+        }
+        if (hashTable.doesContain(nGram)) { // if nGram is already in table
+            int newValue = hashTable.getValue(nGram) + 1;
+            hashTable.erase(nGram);
+            hashTable.insert(nGram, newValue);
+        } else {// if nGram isn't in table
+            hashTable.insert(nGram, 1);
+        }
+
+        // reset variable used for each nGram
+        nGram = "";
+        // Set char to move up one char in list;
+        fromWord++;
+        toWord++;
+    }
+
+    hashTable.printVector();
+
+    // START OF nGRAM OUTPUT TO SCREEN
+    int highestValue = 0;
+    int printCounter = k;
+    int totalValues = 0;
+    // I should be using vectors instead of lists for this
+    // welcome to knowing python
+    list<int> vectorLocations;
+    list<int> tempList;
+
+    int totalEntriesInHashTable = hashTable.getNum();
+    if (printCounter > totalEntriesInHashTable) {
         printCounter = totalEntriesInHashTable;
     }
 
@@ -309,38 +430,14 @@ int nWord(const string &txtFile, int n, int k) {
  * @return error code/success code
  */
 int main(int argc, char *argv[]) {
-    if (argc == 0) {
-        nChar("inputfile.txt", 3, 10);
-    } else if (argc == 1) {
-        string fileName = argv[1];
-        nChar(fileName, 3, 10);
-    } else if (argc == 2) {
-        string fileName = argv[1];
-        int nSize = (int) argv[2];
-        nChar(fileName, nSize, 10);
-    } else if (argc == 3) {
-        string fileName = argv[1];
-        int nSize = (int) argv[2];
-        int kSize = (int) argv[3];
-        nChar(fileName, nSize, kSize);
-    } else if (argc == 4){
-        string fileName = argv[1];
-        int nSize = (int) argv[2];
-        int kSize = (int) argv[3];
-        string mode = argv[4];
-        if(mode == "word"){
-            nWord(fileName, nSize, kSize);
-        }else if(mode == "char"){
-            nChar(fileName, nSize, kSize);
-        }else if(mode == "decimal"){
-            cout << "Not yet implemented" << endl;
-        }else{
-            cout << "Invalid Pram Error" << endl;
-        }
-    }
+    
 }
-*/
 
-int main(){
-    nWord("4001714.txt", 2, 10);
+/*
+int main() {
+    //nWord("4001714.txt", 2, 10);
+    nDecimal("ints.txt", 3, 10);
+    //nChar("4001714.txt", 3, 10);
+    //hashTable.printVector();
 }
+ */

@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -pedantic
 CVERSION = -std=c++17
 
 # Main
-all: test0 test1 test2 test3
+all: clean test0 test1 test2 test3 nGram
 
 test0: test0.cpp
 	# Compiles Test 0

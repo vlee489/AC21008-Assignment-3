@@ -217,6 +217,7 @@ void HashTable<KeyType, ValueType>::rehash(int newSize) {
         assigned = false;
         workingHash++;
     }
+    delete(table);
     table = newTable;
 }
 
