@@ -318,3 +318,8 @@ int main(int argc, char *argv[]) {
         }
     }
 }
+*/
+
+int main(){
+    nWord("4001714.txt", 2, 10);
+}
