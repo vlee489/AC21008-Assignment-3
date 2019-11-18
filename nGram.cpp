@@ -169,17 +169,38 @@ int nWord(const string &txtFile, int n, int k) {
 
     string inputString;
     char letter;
+    // Following bool is used to avoid double spaces
+    // That can break the nWord processing
+    bool justPlacedSpace = false;
     while (reader.get(letter)) {
         if(letter == '.'){
-            inputString += ' ';
+            if(!justPlacedSpace){
+                inputString += ' ';
+                justPlacedSpace = true;
+            }
         }else if(letter == ','){
-            inputString += ' ';
+            if(!justPlacedSpace){
+                inputString += ' ';
+                justPlacedSpace = true;
+            }
         }else if(letter == '!'){
-            inputString += ' ';
+            if(!justPlacedSpace){
+                inputString += ' ';
+                justPlacedSpace = true;
+            }
         }else if(letter == '?') {
-            inputString += ' ';
+            if(!justPlacedSpace){
+                inputString += ' ';
+                justPlacedSpace = true;
+            }
+        }else if(letter == ' ') {
+            if(!justPlacedSpace){
+                inputString += ' ';
+                justPlacedSpace = true;
+            }
         }else if(letter != '\n'){
             inputString += letter;
+            justPlacedSpace = false;
         }
     }
 

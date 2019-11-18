@@ -157,7 +157,7 @@ ValueType HashTable<KeyType, ValueType>::getValue(KeyType KeyIn) {
 template<class KeyType, class ValueType>
 int HashTable<KeyType, ValueType>::hash_function(KeyType input) {
     hash<KeyType> hashVal;
-    int hashKey = (hashVal(input) %31);
+    int hashKey = (hashVal(input) %(int)table->size());
     while(hashKey > (int)table->size()){
         hashKey = hashKey/2;
     }
@@ -178,7 +178,7 @@ int HashTable<KeyType, ValueType>::hash_function(KeyType input) {
 template<class KeyType, class ValueType>
 int HashTable<KeyType, ValueType>::hash_function(KeyType input, int size) {
     hash<KeyType> hashVal;
-    int hashKey = (hashVal(input) %31);
+    int hashKey = (hashVal(input) %size);
     while(hashKey > size){
         hashKey = hashKey/2;
     }
