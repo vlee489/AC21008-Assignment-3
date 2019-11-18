@@ -222,7 +222,7 @@ int nWord(const string &txtFile, int n, int k) {
     string nGram;
     for (int i = 0; i < iteratorAmount; i++) {
         for (int x = fromWord; x < toWord; x++) {
-            if (x >= wordList.size()) {
+            if (x >= (int)wordList.size()) {
                 cout << "nGram assembled has gone out of range of the vector containing words" << endl;
                 return 10;
             }
@@ -342,7 +342,7 @@ int nDecimal(const string &txtFile, int n, int k) {
     string nGram;
     for (int i = 0; i < iteratorAmount; i++) {
         for (int x = fromWord; x < toWord; x++) {
-            if (x >= intVector.size()) {
+            if (x >= (int)intVector.size()) {
                 cout << "nGram assembled has gone out of range of the vector containing Ints" << endl;
                 return 10;
             }
@@ -362,8 +362,6 @@ int nDecimal(const string &txtFile, int n, int k) {
         fromWord++;
         toWord++;
     }
-
-    hashTable.printVector();
 
     // START OF nGRAM OUTPUT TO SCREEN
     int highestValue = 0;
@@ -429,8 +427,24 @@ int nDecimal(const string &txtFile, int n, int k) {
  * @param argv  array of argument strings
  * @return error code/success code
  */
-int main(int argc, char *argv[]) {
-    
+int main(int argc, char* argv[]) {
+   if (argc == 1) {
+       nChar("inputfile.txt", 3, 10);
+   } else if (argc == 5){
+       string fileName = argv[1];
+       int nSize = atoi(argv[2]);
+       int kSize = atoi(argv[3]);
+       string mode = argv[4];
+       if(mode == "word"){
+           nWord(fileName, nSize, kSize);
+       }else if(mode == "char"){
+           nChar(fileName, nSize, kSize);
+       }else if(mode == "decimal"){
+           nDecimal(fileName, nSize, kSize);
+       }else{
+           cout << "Invalid Pram Error" << endl;
+       }
+   }
 }
 
 /*
