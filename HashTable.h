@@ -264,24 +264,14 @@ bool HashTable<KeyType, ValueType>::doesContain(KeyType keyIn) {
         throw EMPTY_VECTOR;
     }
     HashNode<KeyType, ValueType> checkingNode;
-    int hash = hash_function(keyIn);
-    int LoopCounter = 0;
-    while (true) {
-        if (LoopCounter > 1) {
-            return false;
-        }
-        if (hash < (int) table->size()) {
-            checkingNode = table->at(hash);
-            if (checkingNode.getKey() == keyIn && checkingNode.getIsFilled()) {
-                return true;
-            } else {
-                hash++;
-            }
-        } else {
-            hash = 0;
-            LoopCounter++;
+
+    for(int i =0; i < table->size(); i++){
+        checkingNode = table->at(i);
+        if(checkingNode.getKey() == keyIn && checkingNode.getIsFilled()){
+            return true;
         }
     }
+    return false;
 }
 
 /**
