@@ -16,67 +16,6 @@ typedef HashTable<string, int> HTSI;
 HTSI hashTable;
 
 /**
- * prints what's ever in the hashtable out
- * in the output stated in brief
- * @param k top x values to show
- */
-void printToDisplay(int k) {
-    int highestValue = 0;
-    int printCounter = k;
-    int totalValues = 0;
-    // I should be using vectors instead of lists for this
-    // welcome to knowing python
-    list<int> vectorLocations;
-    list<int> tempList;
-
-    int totalEntriesInHashTable = hashTable.getNum();
-    if (printCounter > totalEntriesInHashTable) {
-        printCounter = totalEntriesInHashTable;
-    }
-
-    // forms a list of all locations with a key/value pair in vector
-    // and works out the largest value.
-    for (int id = 0; id < hashTable.size(); id++) {
-        if (hashTable.getIfFilledAtVector(id)) {
-            vectorLocations.push_back(id);
-            totalValues += hashTable.getValueAtVector(id);
-            if (hashTable.getValueAtVector(id) > highestValue) {
-                highestValue = hashTable.getValueAtVector(id);
-            }
-        }
-    }
-
-    while (printCounter > 0) {
-        bool hasPrint = false;
-        int forTime = (int) vectorLocations.size();
-        for (int vID = 0; vID < forTime; vID++) {
-            int workingID = vectorLocations.front();
-            vectorLocations.pop_front();
-            if (hashTable.getValueAtVector(workingID) == highestValue) {
-                float frequencyPercentage = (((float) hashTable.getValueAtVector(workingID) / (float) totalValues) *
-                                             100);
-                printf("%.2f", frequencyPercentage);
-                cout << ":" << hashTable.getKeyAtVector(workingID) << "| PrintCounter: " << printCounter << endl;
-                hasPrint = true;
-                printCounter--;
-                break;
-            } else {
-                tempList.push_back(workingID);
-            }
-        }
-        if (!hasPrint) {
-            highestValue--;
-        }
-
-        for (int q = 0; q < (int) tempList.size(); q++) {
-            int placeInt = tempList.front();
-            tempList.pop_front();
-            vectorLocations.push_back(placeInt);
-        }
-    }
-}
-
-/**
  * This is a more effiecent version of the print code
  * 8X more effiecent.
  * prints what's ever in the hashtable out
@@ -116,7 +55,7 @@ void printToDisplayV2(int k){
             if (hashTable.getValueAtVector(item) == highestValue) {
                 float frequencyPercentage = (((float) hashTable.getValueAtVector(item) / (float) totalValues) *100);
                 printf("%.2f", frequencyPercentage);
-                cout << ":" << hashTable.getKeyAtVector(item) << "| PrintCounter: " << printCounter << endl;
+                cout << ":" << hashTable.getKeyAtVector(item) << endl;
                 printCounter--;
             }
         }
@@ -210,6 +149,86 @@ int nChar(const string &txtFile, int n, int k) {
         // Set char to move up one char in list;
         fromChar++;
         toChar++;
+    }
+
+    reader.close();
+    printToDisplayV2(k);
+    return 0;
+}
+
+int nCharV2(const string &txtFile, int n, int k) {
+    if (n <= 0 || k <= 0) {
+        cout << "Int pram out of accepted range" << endl;
+        return 3;
+    }
+
+    // Holds vars for input
+    string nGram;
+    string inputString;
+    char letter;
+    int count = 0;
+
+    ifstream reader(txtFile);
+    if (!reader) {
+        cout << "Error opening input file" << endl;
+        return 1;
+    }
+
+    // Gets the count of the number of letters
+    // and forms a string
+    while (reader.get(letter)) {
+        if (letter == ' ') {
+            inputString += '_';
+            count++;
+        } else if (letter != '\n') {
+            inputString += letter;
+            count++;
+        }
+
+    }
+
+    vector<char> vectorOfChar;
+    for(char &l : inputString){
+        vectorOfChar.push_back(l);
+    }
+
+    if (count < n) {
+        cout << "not enough input to created desired length of nGram" << endl;
+        return 10;
+    }
+
+    int iteratorAmount = ((count - n)+1); // stores the number of times we need to go through the file for the nchar
+    int fromChar = 0;
+    int toChar = n;
+
+    for (int i = 0; i < iteratorAmount; i++) {
+        for (int x = fromChar; x < toChar; x++) {
+            // sanity check the int is in range
+            if (x >= (int) vectorOfChar.size()) {
+                cout << "nGram assembled has gone out of range of the vector containing Ints" << endl;
+                return 10;
+            }
+            nGram += vectorOfChar[x];
+        }
+        if (hashTable.doesContain(nGram)) { // if nGram is already in table
+            int newValue = hashTable.getValue(nGram) + 1; // stores new value
+            hashTable.erase(nGram);
+            try {
+                hashTable.insert(nGram, newValue);
+            } catch (...) {
+                cout << "Error inserting: " << nGram << endl;
+            }
+        } else {// if nGram isn't in table
+            try {
+                hashTable.insert(nGram, 1);
+            } catch (...) {
+                cout << "Error inserting: " << nGram << endl;
+            }
+        }
+        nGram = "";
+        toChar++;
+        fromChar++;
+
     }
 
     reader.close();
@@ -434,7 +453,7 @@ int main(int argc, char *argv[]) {
     int nSize;
     int kSize;
     if (argc == 1) {
-        nChar("inputfile.txt", 3, 10);
+        nCharV2("inputfile.txt", 3, 10);
     } else if (argc == 5) {
         string fileName = argv[1];
         try {
